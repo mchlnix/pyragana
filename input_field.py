@@ -1,7 +1,7 @@
 import pyautogui
 import pyperclip
 import romkan
-from PySide2.QtGui import QKeyEvent, Qt
+from PySide2.QtGui import QCursor, QKeyEvent, Qt
 from PySide2.QtWidgets import QLineEdit
 
 
@@ -21,6 +21,8 @@ class InputField(QLineEdit):
     """
     def __init__(self):
         super(InputField, self).__init__()
+
+        self.setWindowTitle("pyragana")
 
         self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
 
@@ -45,6 +47,15 @@ class InputField(QLineEdit):
 
     def on_escape(self):
         self.hide()
+
+    def show(self):
+        x, y = QCursor.pos().toTuple()
+
+        width, height = self.sizeHint().toTuple()
+
+        self.setGeometry(x, y, width * 2, height)
+
+        super(InputField, self).show()
 
     def hide(self):
         self.clear()
