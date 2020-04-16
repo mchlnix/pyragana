@@ -1,6 +1,6 @@
+import sys
 import typing
 
-import keybind
 import pyautogui
 import pyperclip
 import romkan
@@ -29,9 +29,12 @@ def to_katakana(romaji: str) -> str:
 
 
 def bind_callback(shortcut: str, callback: typing.Callable) -> None:
-    shortcut_dict = {shortcut: callback}
-
-    keybind.KeyBinder.activate(shortcut_dict, run_thread=True)
+    if sys.platform in ["darwin", "win32"]:
+        import keyboard
+        keyboard.register_hotkey(shortcut, callback)
+    else:
+        import keybind
+        keybind.KeyBinder.activate({shortcut: callback}, run_thread=True)
 
 
 def is_ctrl_pressed() -> bool:
