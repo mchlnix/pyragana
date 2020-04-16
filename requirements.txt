@@ -1,0 +1,6 @@
+PySide2~=5.14.2
+setuptools~=46.1.3
+keybind~=0.2.0
+PyAutoGUI~=0.9.50
+pyperclip~=1.8.0
+romkan~=0.2.1
