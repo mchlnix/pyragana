@@ -17,6 +17,13 @@ To change the keyboard shortcut, that brings up the text input field, see the fi
 ##### Operation System
 - Mac support is experimental, see [boppreh/keyboard](https://github.com/boppreh/keyboard)
 
+##### Installation
+- Download or clone the repository
+- Use your command line/terminal and go into the pyragana folder
+- **In Windows**: Set the environment variable `set PYTHONUTF8=1` to force utf8 mode
+- Install the dependencies using `pip3 install -r requirements.txt`
+- Start using `python main.py` or `python3 main.py`, if that does not work
+
 ##### Python
 - python3
 
