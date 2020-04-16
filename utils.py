@@ -4,6 +4,8 @@ import keybind
 import pyautogui
 import pyperclip
 import romkan
+from PySide2.QtGui import Qt
+from PySide2.QtWidgets import QApplication
 
 
 def trigger_paste() -> None:
@@ -30,3 +32,7 @@ def bind_callback(shortcut: str, callback: typing.Callable) -> None:
     shortcut_dict = {shortcut: callback}
 
     keybind.KeyBinder.activate(shortcut_dict, run_thread=True)
+
+
+def is_ctrl_pressed() -> bool:
+    return (QApplication.keyboardModifiers() & Qt.ControlModifier) == Qt.ControlModifier

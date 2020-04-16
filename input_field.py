@@ -1,9 +1,9 @@
 import time
 
 from PySide2.QtGui import QCursor, QKeyEvent, Qt
-from PySide2.QtWidgets import QApplication, QLineEdit
+from PySide2.QtWidgets import QLineEdit
 
-from utils import copy_to_clipboard, to_hiragana, to_katakana, trigger_paste
+from utils import copy_to_clipboard, is_ctrl_pressed, to_hiragana, to_katakana, trigger_paste
 
 PASTE_DELAY = 0.1  # seconds
 
@@ -26,16 +26,17 @@ class InputField(QLineEdit):
 
     def keyPressEvent(self, event: QKeyEvent):
         if event.key() == Qt.Key_Escape:
-            # simply disappear when pressing ESC
-            self.hide()
+            if is_ctrl_pressed():
+                self.close()
+            else:
+                # simply disappear when pressing ESC
+                self.hide()
         else:
             # all other inputs are text and handled by the parent class
             super(InputField, self).keyPressEvent(event)
 
     def on_enter(self):
-        ctrl_is_pressed = (QApplication.keyboardModifiers() & Qt.ControlModifier) == Qt.ControlModifier
-
-        if ctrl_is_pressed:
+        if is_ctrl_pressed():
             japanese = to_katakana(self.text())
         else:
             japanese = to_hiragana(self.text())
