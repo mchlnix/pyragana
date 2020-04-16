@@ -28,13 +28,20 @@ def to_katakana(romaji: str) -> str:
     return romkan.to_katakana(romaji)
 
 
+def on_linux() -> bool:
+    return sys.platform not in ["darwin", "win32"]
+
+
 def bind_callback(shortcut: str, callback: typing.Callable) -> None:
-    if sys.platform in ["darwin", "win32"]:
-        import keyboard
-        keyboard.register_hotkey(shortcut, callback)
-    else:
+    if on_linux():
         import keybind
         keybind.KeyBinder.activate({shortcut: callback}, run_thread=True)
+    else:
+        # replace all - with +, except for the last character, in case it is the actual "-" key
+        adapted_shortcut = shortcut[:-1].replace("-", "+") + shortcut[-1]
+
+        import keyboard
+        keyboard.register_hotkey(adapted_shortcut, callback)
 
 
 def is_ctrl_pressed() -> bool:
