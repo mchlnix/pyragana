@@ -1,6 +1,6 @@
 import time
 
-from PySide2.QtGui import QCursor, QKeyEvent, Qt
+from PySide2.QtGui import QCursor, QKeyEvent, QShowEvent, Qt
 from PySide2.QtWidgets import QLineEdit
 
 from utils import copy_to_clipboard, is_ctrl_pressed, to_hiragana, to_katakana, trigger_paste
@@ -48,6 +48,10 @@ class InputField(QLineEdit):
         time.sleep(PASTE_DELAY)
 
         trigger_paste()
+
+    def showEvent(self, event: QShowEvent):
+        """Implemented to handle QShowEvents from other threads."""
+        self.show()
 
     def show(self):
         x, y = QCursor.pos().toTuple()
