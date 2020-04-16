@@ -1,8 +1,12 @@
+import time
+
 import pyautogui
 import pyperclip
 import romkan
 from PySide2.QtGui import QCursor, QKeyEvent, Qt
 from PySide2.QtWidgets import QApplication, QLineEdit
+
+PASTE_DELAY = 0.1  # seconds
 
 
 def paste():
@@ -47,6 +51,8 @@ class InputField(QLineEdit):
         pyperclip.copy(japanese)
 
         self.hide()
+
+        time.sleep(PASTE_DELAY)
 
         paste()
 
