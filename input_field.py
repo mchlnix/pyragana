@@ -1,20 +1,11 @@
 import time
 
-import pyautogui
-import pyperclip
-import romkan
 from PySide2.QtGui import QCursor, QKeyEvent, Qt
 from PySide2.QtWidgets import QApplication, QLineEdit
 
+from utils import copy_to_clipboard, to_hiragana, to_katakana, trigger_paste
+
 PASTE_DELAY = 0.1  # seconds
-
-
-def paste():
-    """
-    Trigger a paste in whatever program has the focus at the time, in order to paste the modified contents
-    of the clipboard automatically.
-    """
-    pyautogui.hotkey('ctrl', 'v')
 
 
 class InputField(QLineEdit):
@@ -23,12 +14,13 @@ class InputField(QLineEdit):
     of it will be turned from romaji into hiragana, the input field will disappear and its text will be pasted to
     whatever now has the focus.
     """
+
     def __init__(self):
         super(InputField, self).__init__()
 
         self.setWindowTitle("pyragana")
 
-        self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
 
         self.returnPressed.connect(self.on_enter)
 
@@ -44,20 +36,17 @@ class InputField(QLineEdit):
         ctrl_is_pressed = (QApplication.keyboardModifiers() & Qt.ControlModifier) == Qt.ControlModifier
 
         if ctrl_is_pressed:
-            japanese = romkan.to_katakana(self.text())
+            japanese = to_katakana(self.text())
         else:
-            japanese = romkan.to_hiragana(self.text())
+            japanese = to_hiragana(self.text())
 
-        pyperclip.copy(japanese)
+        copy_to_clipboard(japanese)
 
         self.hide()
 
         time.sleep(PASTE_DELAY)
 
-        paste()
-
-    def on_escape(self):
-        self.hide()
+        trigger_paste()
 
     def show(self):
         x, y = QCursor.pos().toTuple()
