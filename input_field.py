@@ -2,7 +2,7 @@ import pyautogui
 import pyperclip
 import romkan
 from PySide2.QtGui import QCursor, QKeyEvent, Qt
-from PySide2.QtWidgets import QLineEdit
+from PySide2.QtWidgets import QApplication, QLineEdit
 
 
 def paste():
@@ -37,9 +37,14 @@ class InputField(QLineEdit):
             super(InputField, self).keyPressEvent(event)
 
     def on_enter(self):
-        hiragana = romkan.to_hiragana(self.text())
+        ctrl_is_pressed = (QApplication.keyboardModifiers() & Qt.ControlModifier) == Qt.ControlModifier
 
-        pyperclip.copy(hiragana)
+        if ctrl_is_pressed:
+            japanese = romkan.to_katakana(self.text())
+        else:
+            japanese = romkan.to_hiragana(self.text())
+
+        pyperclip.copy(japanese)
 
         self.hide()
 
