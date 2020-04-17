@@ -28,7 +28,7 @@ To change the keyboard shortcut, that brings up the text input field, see the fi
 - python3
 
 ##### Python Modules
-- keybind (for Linux; modified, waiting for pull request)
+- keybind (for Linux)
 - keyboard (for Windows and experimental Mac support)
 - PyAutoGUI
 - pyperclip

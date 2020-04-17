@@ -1,4 +1,4 @@
-keybind~=0.2.0; sys_platform == 'linux'
+keybind~=0.3.0; sys_platform == 'linux'
 keyboard~=0.13.5; sys_platform != 'linux'
 PyAutoGUI~=0.9.50
 PySide2~=5.14.2
